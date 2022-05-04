@@ -15,8 +15,11 @@ type RedisStorageManager struct {
 }
 
 func NewRedisStorageManager(address string, password string) *RedisStorageManager {
-	rc := rdslib.NewClusterClient(&rdslib.ClusterOptions{
-		Addrs: []string{address},
+	rc := rdslib.NewClient(&rdslib.Options{
+		Addr: "192.168.1.104:6379",
+		Password: "1234",
+		DB: 0,
+		PoolSize: 100,
 	})
 
 	_, err := rc.Ping().Result()
