@@ -1,7 +1,7 @@
 package storage
 
 import (
-	pb "github.com/vsreekanti/aft/proto/aft"
+	pb "github.com/lechou-0/AFT/proto/aft"
 )
 
 const TransactionKey = "transactions/%s-%d"
