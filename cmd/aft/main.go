@@ -11,7 +11,7 @@ import (
 	uuid "github.com/nu7hatch/gouuid"
 	"google.golang.org/grpc"
 
-	pb "github.com/vsreekanti/aft/proto/aft"
+	pb "github.com/lechou-0/AFT/proto/aft"
 )
 
 type keyUpdate struct {
