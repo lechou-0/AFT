@@ -14,62 +14,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-IP=`curl http://169.254.169.254/latest/meta-data/public-ipv4`
-
-# A helper function that takes a space separated list and generates a string
-# that parses as a YAML list.
-gen_yml_list() {
-  IFS=' ' read -r -a ARR <<< $1
-  RESULT=""
-
-  for IP in "${ARR[@]}"; do
-    RESULT=$"$RESULT        - $IP\n"
-  done
-
-  echo -e "$RESULT"
-}
-
-# Create the AWS access key infrastructure.
-mkdir -p ~/.aws
-echo -e "[default]\nregion = us-east-1" > ~/.aws/config
-echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID\naws_secret_access_key = $AWS_SECRET_ACCESS_KEY" > ~/.aws/credentials
-
-# Fetch the most recent version of the code.
-cd $AFT_HOME
-git fetch -p origin
-git checkout -b brnch origin/$REPO_BRANCH
-cd proto/aft
-protoc -I . aft.proto --go_out=plugins=grpc:.
-cd $AFT_HOME
-
-# Build the most recent version of the code.
-
-if [[ "$ROLE" = "manager" ]] || [[ "$ROLE" = "lb" ]]; then
-  mkdir -p /root/.kube
-fi
-
-# Wait for the aft-config file to be passed in.
-while [[ ! -f $AFT_HOME/config/aft-config.yml ]]; do
-  X=1 # Empty command to pass.
-done
-
-if [[ "$ROLE" != "bench" ]] && [[ "$ROLE" != "lb" ]]; then
-  while [[ ! -f replicas.txt ]]; do
-    X=1 # Empty command to pass.
-  done
-fi
-
-REPLICA_IPS=`cat replicas.txt | awk 'BEGIN{ORS=" "}1'`
-
-# Generate the YML config file.
-echo "ipAddress: $IP" >> config/aft-config.yml
-echo "managerAddress: $MANAGER" >> config/aft-config.yml
-LST=$(gen_yml_list "$REPLICA_IPS")
-echo "replicaList:" >> config/aft-config.yml
-echo "$LST" >> config/aft-config.yml
-
-# go get -u -d ./...
-
 # Start the process.
 if [[ "$ROLE" = "aft" ]]; then
   cd $AFT_HOME/cmd/aft
