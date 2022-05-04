@@ -11,7 +11,7 @@ import (
 	"github.com/vsreekanti/aft/config"
 	"github.com/vsreekanti/aft/lib/consistency"
 	"github.com/vsreekanti/aft/lib/storage"
-	pb "github.com/vsreekanti/aft/proto/aft"
+	pb "github.com/lechou-0/AFT/proto/aft"
 )
 
 type AftServer struct {
