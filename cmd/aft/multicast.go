@@ -8,7 +8,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	zmq "github.com/pebbe/zmq4"
 
-	pb "github.com/vsreekanti/aft/proto/aft"
+	pb "github.com/lechou-0/AFT/proto/aft"
 )
 
 const (
