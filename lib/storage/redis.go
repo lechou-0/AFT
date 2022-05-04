@@ -7,7 +7,7 @@ import (
 
 	rdslib "github.com/go-redis/redis"
 	"github.com/golang/protobuf/proto"
-	pb "github.com/vsreekanti/aft/proto/aft"
+	pb "github.com/lechou-0/AFT/proto/aft"
 )
 
 type RedisStorageManager struct {
