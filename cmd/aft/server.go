@@ -8,9 +8,9 @@ import (
 
 	uuid "github.com/nu7hatch/gouuid"
 
-	"github.com/vsreekanti/aft/config"
-	"github.com/vsreekanti/aft/lib/consistency"
-	"github.com/vsreekanti/aft/lib/storage"
+	"github.com/lechou-0/AFT/config"
+	"github.com/lechou-0/AFT/lib/consistency"
+	"github.com/lechou-0/AFT/lib/storage"
 	pb "github.com/lechou-0/AFT/proto/aft"
 )
 
