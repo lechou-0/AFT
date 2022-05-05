@@ -143,7 +143,7 @@ func (redis *RedisStorageManager) List(prefix string) ([]string, error) {
 	for additionalKeys {
 		var scanKeys []string
 		var err error
-		scanKeys, cursor, err = redis.Scan(ctx, cursor, redisPrefix, 100).Result()
+		scanKeys, cursor, err = redis.client.Scan(ctx, cursor, redisPrefix, 100).Result()
 
 		if err != nil {
 			return err
