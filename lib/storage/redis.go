@@ -82,11 +82,10 @@ func (redis *RedisStorageManager) GetTransaction(transactionKey string) (*pb.Tra
 }
 
 func (redis *RedisStorageManager) MultiGetTransaction(transactionKeys *[]string) (*[]*pb.TransactionRecord, error) {
-	ctx := context.Background()
 	results := make([]*pb.TransactionRecord, len(*transactionKeys))
 
 	for index, key := range *transactionKeys {
-		txn, err := redis.GetTransaction(ctx, key)
+		txn, err := redis.GetTransaction(key)
 		if err != nil {
 			return &[]*pb.TransactionRecord{}, err
 		}
@@ -108,9 +107,8 @@ func (redis *RedisStorageManager) Put(key string, val *pb.KeyValuePair) error {
 }
 
 func (redis *RedisStorageManager) MultiPut(data *map[string]*pb.KeyValuePair) error {
-	ctx := context.Background()
 	for key, val := range *data {
-		err := redis.Put(ctx, key, val)
+		err := redis.Put(key, val)
 		if err != nil {
 			return err
 		}
@@ -125,9 +123,8 @@ func (redis *RedisStorageManager) Delete(key string) error {
 }
 
 func (redis *RedisStorageManager) MultiDelete(keys *[]string) error {
-	ctx := context.Background()
 	for _, key := range *keys {
-		err := redis.Delete(ctx, key)
+		err := redis.Delete(key)
 		if err != nil {
 			return err
 		}
