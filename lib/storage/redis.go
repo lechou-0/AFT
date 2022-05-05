@@ -138,33 +138,24 @@ func (redis *RedisStorageManager) List(prefix string) ([]string, error) {
 	redisPrefix := fmt.Sprintf("%s*", prefix)
 	mtx := &sync.Mutex{}
 	ctx := context.Background()
-	err := redis.client.ForEachMaster(ctx, func(master *rdslib.Client) error {
-		cursor := uint64(0)
-		additionalKeys := true
-		ctx1 := context.Background()
-		for additionalKeys {
-			var scanKeys []string
-			var err error
-			scanKeys, cursor, err = master.Scan(ctx1, cursor, redisPrefix, 100).Result()
+	cursor := uint64(0)
+	additionalKeys := true
+	for additionalKeys {
+		var scanKeys []string
+		var err error
+		scanKeys, cursor, err = redis.Scan(ctx, cursor, redisPrefix, 100).Result()
 
-			if err != nil {
-				return err
-			}
-
-			mtx.Lock()
-			result = append(result, scanKeys...)
-			mtx.Unlock()
-
-			if cursor == 0 {
-				additionalKeys = false
-			}
+		if err != nil {
+			return err
 		}
 
-		return nil
-	})
+		mtx.Lock()
+		result = append(result, scanKeys...)
+		mtx.Unlock()
 
-	if err != nil {
-		return []string{}, err
+		if cursor == 0 {
+			additionalKeys = false
+		}
 	}
 
 	return result, nil
