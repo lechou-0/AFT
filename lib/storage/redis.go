@@ -5,6 +5,7 @@ import (
 	"os"
 	"sync"
 	"context"
+	"time"
 
 	rdslib "github.com/go-redis/redis"
 	"github.com/golang/protobuf/proto"
@@ -12,7 +13,7 @@ import (
 )
 
 type RedisStorageManager struct {
-	client *rdslib.ClusterClient
+	client *rdslib.Client
 }
 
 func NewRedisStorageManager(address string, password string) *RedisStorageManager {
