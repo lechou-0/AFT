@@ -146,7 +146,7 @@ func (redis *RedisStorageManager) List(prefix string) ([]string, error) {
 		scanKeys, cursor, err = redis.client.Scan(ctx, cursor, redisPrefix, 100).Result()
 
 		if err != nil {
-			return err
+			return []string{}, err
 		}
 
 		mtx.Lock()
